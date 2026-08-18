@@ -16,3 +16,4 @@ CREATE TABLE IF NOT EXISTS divulgacao (id_divulgacao INT AUTO_INCREMENT PRIMARY 
 CREATE TABLE IF NOT EXISTS resultado (id_resultado INT AUTO_INCREMENT PRIMARY KEY, id_escuderia INT NOT NULL, id_divulgacao INT NOT NULL, nota_final DECIMAL(4,2) NOT NULL, FOREIGN KEY (id_escuderia) REFERENCES escuderia(id_escuderia), FOREIGN KEY (id_divulgacao) REFERENCES divulgacao(id_divulgacao), UNIQUE(id_escuderia, nota_final));
 
 SELECT id_escuderia, AVG(nota) as nota_final FROM avaliacao GROUP BY id_escuderia;
+
