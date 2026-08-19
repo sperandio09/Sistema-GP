@@ -11,3 +11,5 @@ def get_connection():
         password = os.getenv('DB_PASSWORD'),
         database = os.getenv('DB_NAME')
     )
+
+    return connection 
