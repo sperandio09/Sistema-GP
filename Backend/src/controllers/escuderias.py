@@ -9,3 +9,12 @@ def criar_escuderia(nome_escuderia: str, turma: str, id_mentor: int):
     cursor.close()
     conn.close()
     return novo_id
+
+def listar_escuderias():
+    conn = get_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute('SELECT * FROM escuderia')
+    resultado = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return resultado
