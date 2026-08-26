@@ -1,5 +1,5 @@
 body {
-    background-image: url(./assets/tela-inicial.png);
+    background-image: url(./assets/tela-inicial-sistema-gp.png);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -11,6 +11,6 @@ body {
 
 @media (max-width: 768px) {
     body {
-        background-image:url("./assets/tela-inicial-mobile.png");
+        background-image:url("./assets/tela-inicial-mobile-sistema-gp.png");
     }
 }
