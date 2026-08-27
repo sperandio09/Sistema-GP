@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from datetime import datetime
 
 class EscuderiaCreate(BaseModel):
     nome: str
@@ -11,4 +12,7 @@ class AvaliacaoCreate(BaseModel):
     id_criterio: int
     nota: float
     comentario: str | None = None
-    
+
+class DivulgacaoUpdate(BaseModel):
+    mostrar_resultado: bool
+    data_divulgacao: datetime  

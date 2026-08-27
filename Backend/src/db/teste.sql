@@ -2,7 +2,7 @@ USE sistema_gp
 
 INSERT INTO tipousuario (id_tipousuario, descricao) VALUES ('3', 'ALUNO')
 INSERT INTO usuario (id_tipousuario, nome) VALUES ('2', 'AVALIADOR TESTE')
-INSERT INTO criterio (descricao) VALUES ('Inovação')
+INSERT INTO criterio (descricao) VALUES ('Impacto Social')
 
 SELECT * FROM tipousuario
 SELECT * FROM usuario
