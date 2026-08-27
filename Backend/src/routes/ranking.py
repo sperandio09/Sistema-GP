@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from src.controllers.ranking import obter_status_divulgacao, calcular_ranking
+from src.controllers.ranking import obter_status_divulgacao, obter_ranking_salvo
 from src.models import DivulgacaoUpdate
 from src.controllers.ranking import atualizar_divulgacao
 from src.controllers.ranking import obter_desempenho_escuderia 
@@ -13,12 +13,12 @@ def status_divulgacao():
         return {'mostrar_resultado': False, 'data_divulgacao': None}
     return status 
 
-@router.get('/ranking')
+@router.get("/ranking")
 def obter_ranking():
     status = obter_status_divulgacao()
-    if not status or not status['mostrar_resultado']:
-        raise HTTPException(status_code=403, detail='O ranking ainda não foi divulgado.')
-    return calcular_ranking()
+    if not status or not status["mostrar_resultado"]:
+        raise HTTPException(status_code=403, detail="O ranking ainda não foi divulgado.")
+    return obter_ranking_salvo()
 
 @router.post('/divulgacao')
 def definir_divulgacao(dados: DivulgacaoUpdate):

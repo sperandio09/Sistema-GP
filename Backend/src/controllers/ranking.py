@@ -47,24 +47,30 @@ def calcular_ranking():
     return ranking
 
 def atualizar_divulgacao(mostrar_resultado: bool, data_divulgacao):
-     conn = get_connection()
-     cursor = conn.cursor()
-     cursor.execute('SELECT id_divulgacao FROM divulgacao ORDER BY id_divulgacao DESC LIMIT 1')
-     existente = cursor.fetchone()
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id_divulgacao FROM divulgacao ORDER BY id_divulgacao DESC LIMIT 1")
+    existente = cursor.fetchone()
 
-     if existente:
-          cursor.execute(
-               'UPDATE divulgacao SET mostrar_resultado = %s, data_divulgacao = %s WHERE id_divulgacao = %s',
-               (mostrar_resultado, data_divulgacao, existente[0])
-          )
-     else:
-          cursor.execute(
-               'INSERT INTO divulgacao (mostrar_resultado, data_divulgacao) VALUES (%s, %s)',
-               (mostrar_resultado, data_divulgacao)
-          )
-     conn.commit()
-     cursor.close()
-     conn.close()
+    if existente:
+        id_divulgacao = existente[0]
+        cursor.execute(
+            "UPDATE divulgacao SET mostrar_resultado = %s, data_divulgacao = %s WHERE id_divulgacao = %s",
+            (mostrar_resultado, data_divulgacao, id_divulgacao)
+        )
+    else:
+        cursor.execute(
+            "INSERT INTO divulgacao (mostrar_resultado, data_divulgacao) VALUES (%s, %s)",
+            (mostrar_resultado, data_divulgacao)
+        )
+        id_divulgacao = cursor.lastrowid
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    if mostrar_resultado:
+        salvar_snapshot_ranking(id_divulgacao)
 
 def obter_desempenho_escuderia(id_escuderia: int):
     conn = get_connection()
@@ -109,3 +115,32 @@ def obter_desempenho_escuderia(id_escuderia: int):
         'comentarios': comentarios
     }
 
+def salvar_snapshot_ranking(id_divulgacao):
+    ranking = calcular_ranking()
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM resultado WHERE id_divulgacao = %s', (id_divulgacao,))
+    for item in ranking:
+        cursor.execute(
+            'INSERT INTO resultado (id_escuderia, id_divulgacao, nota_final) VALUES (%s, %s, %s)',
+            (item['id_escuderia'], id_divulgacao, item['nota_final'])
+            )
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+def obter_ranking_salvo():
+    conn = get_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute('''
+        SELECT resultado.id_escuderia, escuderia.nome_escuderia, resultado.nota_final
+        FROM resultado
+        JOIN escuderia ON resultado.id_escuderia = escuderia.id_escuderia
+        ORDER BY resultado.nota_final DESC
+    ''')
+    linhas = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    for linha in linhas:
+        linha['nota_final'] = float(linha['nota_final'])
+    return linhas
