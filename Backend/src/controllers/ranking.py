@@ -63,14 +63,15 @@ def atualizar_divulgacao(mostrar_resultado: bool, data_divulgacao):
             "INSERT INTO divulgacao (mostrar_resultado, data_divulgacao) VALUES (%s, %s)",
             (mostrar_resultado, data_divulgacao)
         )
-        id_divulgacao = cursor.lastrowid
+        id_divulgacao = cursor.lastrowid   
 
     conn.commit()
     cursor.close()
     conn.close()
-
+     
     if mostrar_resultado:
-        salvar_snapshot_ranking(id_divulgacao)
+            salvar_snapshot_ranking(id_divulgacao)
+
 
 def obter_desempenho_escuderia(id_escuderia: int):
     conn = get_connection()
@@ -125,9 +126,9 @@ def salvar_snapshot_ranking(id_divulgacao):
             'INSERT INTO resultado (id_escuderia, id_divulgacao, nota_final) VALUES (%s, %s, %s)',
             (item['id_escuderia'], id_divulgacao, item['nota_final'])
             )
-        conn.commit()
-        cursor.close()
-        conn.close()
+    conn.commit()
+    cursor.close()
+    conn.close()
 
 def obter_ranking_salvo():
     conn = get_connection()

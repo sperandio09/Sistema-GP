@@ -10,3 +10,4 @@ def cadastrar_avaliacao(dados: AvaliacaoCreate):
         novo_id  = criar_avaliacao(dados.id_escuderia, dados.id_avaliador, dados.id_criterio, dados.nota, dados.comentario)
     except ValueError as erro:
         raise HTTPException(status_code=400, detail=str(erro))
+    return {'id_avaliacao': novo_id, 'message': 'Avaliação atribuída com sucesso!'}
