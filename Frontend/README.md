@@ -1,4 +1,4 @@
-# Sistema GP de Avaliação - SENAI|Sinop
+# Sistema Grand Prix de Avaliação - SENAI|Sinop
 
 ![Tela de Apresentação](Sistema%20GP/Frontend/resources/Tela%20de%20fundo%20README%20-%20Sistema-GP.png)
 
