@@ -1,4 +1,4 @@
-# Sistema GP de Avaliação - SENAI|Sinop
+# Sistema GP de Avaliação - SENAI | Sinop
 
 ![Tela de Apresentação](https://github.com/sperandio09/Sistema-GP/blob/main/Frontend/resources/Tela%20de%20fundo%20README%20-%20Sistema%20GP.png)
 
