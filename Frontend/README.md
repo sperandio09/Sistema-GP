@@ -1,6 +1,3 @@
-<<<<<<< HEAD:Frontend/README.md
-# Sistema Grand Prix de Avaliação - SENAI|Sinop
-=======
 # Sistema GP de Avaliação - SENAI | Sinop
 >>>>>>> 624e3b8cc9228852dfc3cd998c220fec6450e38c:README.md
 
