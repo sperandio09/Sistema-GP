@@ -1,6 +1,10 @@
+<<<<<<< HEAD:Frontend/README.md
 # Sistema Grand Prix de Avaliação - SENAI|Sinop
+=======
+# Sistema GP de Avaliação - SENAI | Sinop
+>>>>>>> 624e3b8cc9228852dfc3cd998c220fec6450e38c:README.md
 
-![Tela de Apresentação](Sistema%20GP/Frontend/resources/Tela%20de%20fundo%20README%20-%20Sistema-GP.png)
+![Tela de Apresentação](https://github.com/sperandio09/Sistema-GP/blob/main/Frontend/resources/Tela%20de%20fundo%20README%20-%20Sistema%20GP.png)
 
 Sistema de avaliação e divulgação de resultados do evento **Grand Prix SENAI**, da *SAGA SENAI de Inovação*. O projeto foi inteiramente desenvolvido pela Embaixadora Júnior da Inovação, **Luma Sperandio**.
 
