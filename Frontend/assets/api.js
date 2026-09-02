@@ -1,7 +1,7 @@
 const API_URL = "https://sistema-gp-production.up.railway.app";
 
 async function cadastrarEscuderia(nome, turma, id_mentor){
-    const resposta = await fetch('${API_URL}/escuderias', {
+    const resposta = await fetch(`${API_URL}/escuderias`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -12,6 +12,6 @@ async function cadastrarEscuderia(nome, turma, id_mentor){
 }
 
 async function listarEscuderias(){
-    const resposta = await fetch('${API_URL}/escuderias');
+    const resposta = await fetch(`${API_URL}/escuderias`);
     return resposta.json();
 }

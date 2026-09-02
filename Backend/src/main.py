@@ -9,18 +9,19 @@ from src.routes.ranking import router as ranking_router
 
 app = FastAPI(title = 'Sistema GP de Avaliação', version = '1.0.0')
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins = ['*'],
+    allow_methods = ['*'],
+    allow_credentials = True,
+    allow_headers = ['*']
+)
+
 app.include_router(escuderias_router)
 app.include_router(avaliacoes_router)
 app.include_router(criterios_router)
 app.include_router(usuarios_router)
 app.include_router(ranking_router)
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins = ['*'],
-    allow_methods = ['*'],
-    allow_headers = ['*']
-)
 
 @app.get('/')
 def root():
