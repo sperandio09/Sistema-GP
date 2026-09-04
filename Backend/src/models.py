@@ -4,7 +4,7 @@ from datetime import datetime
 class EscuderiaCreate(BaseModel):
     nome: str
     turma: str
-    id_mentor: int
+    nome_mentor: str
 
 class AvaliacaoCreate(BaseModel):
     id_escuderia: int 

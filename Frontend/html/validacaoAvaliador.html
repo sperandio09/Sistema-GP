@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Acesso do Avaliador - Grand Prix 2026</title>
+    <link rel="stylesheet" href="../style/validacaoAvaliador.css"/>
+  </head>
+  <body>
+    <main class="container-validacao">
+      <h2 class="titulo-tela">Área do Avaliador</h2>
+      <p class="instrucao">Digite o código de acesso de 4 dígitos:</p>
+
+      <form id="formValidacao">
+        <input
+          type="password"
+          id="inputCodigo"
+          maxlength="4"
+          pattern="\d{4}"
+          placeholder="0000"
+          required
+          inputmode="numeric"
+          autocomplete="off"
+        />
+
+        <div class="botoes-grupo-codigo">
+          <button type="button" class="btn-voltar" id="btnVoltar">Voltar</button>
+          <button type="submit" class="btn-opcao">Entrar</button>
+        </div>
+      </form>
+    </main>
+    <script src="../js/validacaoAvaliador.js"></script>
+  </body>
+</html>

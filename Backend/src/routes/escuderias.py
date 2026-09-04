@@ -6,7 +6,7 @@ router = APIRouter()
 
 @router.post('/escuderias')
 def cadastrar_escuderia(dados: EscuderiaCreate):
-    novo_id = criar_escuderia(dados.nome, dados.turma, dados.id_mentor)
+    novo_id = criar_escuderia(dados.nome, dados.turma, dados.nome_mentor)
     return {'id_escuderia': novo_id, 'message': 'Escuderia cadastrada com sucesso!'}
 
 @router.get('/escuderias')

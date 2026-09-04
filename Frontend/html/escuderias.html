@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gerenciar Escuderias - Grand Prix 2026</title>
+    <link rel="stylesheet" href="../style/escuderias.css" />
+  </head>
+  <body>
+    <main class="container-inicial" style="max-width: 600px">
+      <h2 class="titulo-sistema">Escuderias</h2>
+      <h3 class="subtitulo-sistema">Gerenciamento</h3>
+
+      <form
+        id="formCadastroEscuderia">
+        
+        <input
+          type="text"
+          id="inputNomeEscuderia"
+          placeholder="Insira o nome da escuderia"
+          required
+          autocomplete="off"
+        />
+        <input
+          type="text"
+          id="inputTurma"
+          placeholder="Insira a turma"
+          required
+          autocomplete="off"
+        />
+        <input
+          type="text"
+          id="inputMentor"
+          placeholder="Insira o nome do mentor (apenas letras maiúsculas)"
+          required
+        />
+        <button type="submit">Submeter Escuderia</button>
+      </form>
+
+      <hr/>
+
+      <h3 class="subtitulo-sistema">Procurando algo?</h3>
+      <input
+        type="text"
+        id="inputBusca"
+        placeholder="Insira escuderia, turma ou mentor..."
+      />
+      <button id="btnBuscar">Buscar</button>
+
+      <ul
+        id="listaEscuderias"
+      ></ul>
+
+      <p class="creditos">
+        <a href="paginaInicial.html">← Voltar para a página inicial</a>
+      </p>
+    </main>
+    <script src="../js/api.js"></script>
+    <script src="../js/escuderias.js"></script>
+  </body>
+</html>

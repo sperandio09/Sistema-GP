@@ -1,0 +1,113 @@
+body {
+  background-image: url(../assets/tela-de-fundo-padrao.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  min-height: 100vh;
+  width: 100%;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  body {
+    background-image: url("../assets/tela-de-fundo-padrao-mobile.png");
+  }
+}
+
+.container-inicial {
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(1px);
+    -webkit-backdrop-filter: blur(1px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 40px;
+    text-align: center;
+    align-items: center;
+    box-shadow: 0 10px 40px rgba(16, 44, 117, 0.15);
+    max-width: 400px;
+    width: 90%;
+}
+
+.titulo-sistema {
+    color: #f05a24;
+    margin: 0 0 5px 0;
+    font-size: 40px;
+    text-transform: uppercase;
+    font-weight: bolder;
+    letter-spacing: 0.5px;
+}
+
+.subtitulo-sistema {
+    color: #102c75;
+    margin: 0 0 35px 0;
+    font-size: 20px;
+    font-weight: 200;
+    text-transform: uppercase;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin-bottom: 25px;
+}
+.container-inicial input[type="text"]{
+    padding: 12px 16px;
+    width: 100%;
+    font-size: 15px;
+    color: #333;
+    background-color: #fff;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+}
+
+.container-inicial input[type="text"]:focus{
+    border-color: #f05a24;
+    box-shadow: 0 0 5px rgba(240, 90, 36, 0.3);
+}
+
+.container-inicial button{
+    background-color:#102c75;
+    color: #f0f0f0;
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.container-inicial button:hover{
+    background-color: #090846;
+}
+
+#inputBusca{
+    margin-bottom: 20px;
+}
+
+ul #listaEscuderias{
+    list-style: none;
+    padding: 0;
+    margin-top: 15px;
+}
+
+.creditos a{
+    color: #7a8294;
+    text-decoration: none;
+    font-size: 16px;
+    margin-top: 35px;
+    font-weight: 500;
+}
+
+.creditos a:hover{
+    color: #f05a24;
+}
