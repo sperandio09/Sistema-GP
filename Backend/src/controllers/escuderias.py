@@ -49,7 +49,11 @@ def criar_escuderia(nome: str, turma: str, nome_mentor: str):
 def listar_escuderias():
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
-    cursor.execute('SELECT * FROM escuderia')
+    cursor.execute('''
+    SELECT escuderia.id_escuderia, escuderia.nome_escuderia, escuderia.turma, usuario.nome AS nome_mentor 
+    FROM escuderia 
+    JOIN usuario ON escuderia.id_mentor = usuario.id_usuario
+    ''')
     resultado = cursor.fetchall()
     cursor.close()
     conn.close()

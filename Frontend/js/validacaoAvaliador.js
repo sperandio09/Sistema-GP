@@ -13,8 +13,8 @@ form.addEventListener("submit", (event) => {
   const codigoDigitado = inputCodigo.value;
 
   if (codigoDigitado === CODIGO_VALIDACAO) {
-    alert("Acesso concedido! Redirecionando para a página de avaliação...");
-    window.location.href = "avaliacao.html";
+    alert("Acesso concedido! Redirecionando para a página de identificação...");
+    window.location.href = "identificacaoAvaliador.html";
   } else {
     alert("Código de validação incorreto. Tente novamente.");
     inputCodigo.value = "";
