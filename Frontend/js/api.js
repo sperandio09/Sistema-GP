@@ -46,3 +46,8 @@ async function cadastrarAvaliacao(
   });
   return resposta.json();
 }
+
+async function obterStatusDivulgacao() {
+  const resposta = await fetch(`${API_URL}/divulgacao`);
+  return resposta.json();
+}

@@ -77,3 +77,48 @@ async function carregarEscuderias(termoBusca = "") {
         lista.appendChild(item);
     });
 }
+
+async function verificarDivulgacao() {
+    const status = await obterStatusDivulgacao();
+    const bloco = document.getElementById("blocoDivulgacao");
+
+    if (status.mostrar_resultado){
+        bloco.innerHTML = `<a href="resultado.html"><button>Ver Resultados 🏆</button></a>`;
+        return;
+    }
+
+    if (!status.data_divulgacao){
+        bloco.innerHTML = "";
+        return;
+    }
+    
+    const dataAlvo = new Date(status.data_divulgacao);
+
+    function atualizarContagem(){
+        const agora = new Date(status.data_divulgacao);
+
+        function atualizarContagem(){
+            const agora = new Date();
+            const diferenca = dataAlvo - agora;
+
+            if (diferenca <= 0){
+                bloco.innerHTML = "<p>Aguardando divulgação...</p>";
+                return;
+            }
+
+            const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
+            const horas = Math.floor((diferenca / (1000 * 60 * 60)) % 24);
+            const minutos = Math.floor((diferenca / (1000 * 60)) % 60);
+
+            bloco.innerHTML = `
+            <p><strong>Divulgação dos resultados em:</strong></p>
+            <p>${dias} dias, ${horas} horas e ${minutos} minutos</p>
+            <p>Boa sorte!</p>
+            `;
+        }
+        atualizarContagem();
+        setInterval(atualizarContagem, 60000);
+    }
+
+    verificarDivulgacao();
+}

@@ -76,3 +76,9 @@ option {
     transition: background-color 0.3s;
     margin-top: 20px;
 }
+
+#btnConfirmar:hover{
+    background-color: #d04a1f;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(240, 90, 36, 0.3);
+}
