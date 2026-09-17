@@ -6,12 +6,17 @@ body {
 
   min-height: 100vh;
   width: 100%;
-  margin: 0;
+  margin: 0;;
 
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  display: flex;
+ font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
   justify-content: center;
   align-items: center;
+  display: flex;
 }
 
 @media (max-width: 768px) {

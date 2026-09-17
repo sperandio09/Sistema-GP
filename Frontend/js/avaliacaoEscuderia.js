@@ -1,10 +1,26 @@
-//const idAvaliador = sessionStorage.getItem("id_avaliador");
-//if (!idAvaliador){
-//    window.location.href = "validacaoAvaliador.html";    
-//}
+const idAvaliador = sessionStorage.getItem("id_avaliador");
+if (!idAvaliador){
+    window.location.href = "validacaoAvaliador.html";    
+}
 
 const parametros = new URLSearchParams(window.location.search);
 const idEscuderia = parametros.get("id");
+
+async function carregarDadosEscuderia() {
+    const escuderias = await listarEscuderias();
+    const escuderia = escuderias.find((e) => e.id_escuderia == idEscuderia);
+
+    if (!escuderia) {
+        document.getElementById("nomeEscuderia").textContent = "Escuderia não encontrada.";
+        return;
+    }
+
+    document.getElementById("nomeEscuderia").innerHTML = `
+    ${escuderia.nome_escuderia}
+    <br>
+    <span id="infoEscuderia">${escuderia.nome_mentor} - ${escuderia.turma}</span>
+    `;
+}
 
 async function montarFormulario() {
     const criterios = await obterCriterios();
@@ -41,4 +57,5 @@ document.getElementById("btnEnviar").addEventListener("click", async () => {
     window.location.href = "escuderiasAvaliadas.html";
 });
 
+carregarDadosEscuderia();
 montarFormulario();

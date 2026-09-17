@@ -82,43 +82,54 @@ async function verificarDivulgacao() {
     const status = await obterStatusDivulgacao();
     const bloco = document.getElementById("blocoDivulgacao");
 
-    if (status.mostrar_resultado){
+    if (status.mostrar_resultado) {
         bloco.innerHTML = `<a href="resultado.html"><button>Ver Resultados 🏆</button></a>`;
+        bloco.style.backgroundColor = 'transparent';
+        bloco.style.backdropFilter = '';
+        bloco.style.webkitBackdropFilter = '';
+        bloco.style.border = '';
+        bloco.style.boxShadow = '';
         return;
     }
 
-    if (!status.data_divulgacao){
+    if (!status.data_divulgacao) {
         bloco.innerHTML = "";
+        bloco.style.backgroundColor = 'transparent';
+        bloco.style.border = '';
+        bloco.style.boxShadow = '';
         return;
     }
-    
+
+    bloco.style.backgroundColor = '#ffff';
+    bloco.style.backdropFilter = 'blur(8px)';
+    bloco.style.webkitBackdropFilter = 'blur(8px)';
+    bloco.style.border = '1px solid rgba(255, 255, 255, 0.4)';
+    bloco.style.boxShadow = '0 10px 40px rgba(16, 44, 117, 0.15)';
+
     const dataAlvo = new Date(status.data_divulgacao);
 
-    function atualizarContagem(){
-        const agora = new Date(status.data_divulgacao);
+    function atualizarContagem() {
+        const agora = new Date();
+        const diferenca = dataAlvo - agora;
 
-        function atualizarContagem(){
-            const agora = new Date();
-            const diferenca = dataAlvo - agora;
-
-            if (diferenca <= 0){
-                bloco.innerHTML = "<p>Aguardando divulgação...</p>";
-                return;
-            }
-
-            const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
-            const horas = Math.floor((diferenca / (1000 * 60 * 60)) % 24);
-            const minutos = Math.floor((diferenca / (1000 * 60)) % 60);
-
-            bloco.innerHTML = `
-            <p><strong>Divulgação dos resultados em:</strong></p>
-            <p>${dias} dias, ${horas} horas e ${minutos} minutos</p>
-            <p>Boa sorte!</p>
-            `;
+        if (diferenca <= 0) {
+            bloco.innerHTML = "<p class='statusDivulgacao'>Aguardando divulgação...</p>";
+            return;
         }
-        atualizarContagem();
-        setInterval(atualizarContagem, 60000);
+
+        const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
+        const horas = Math.floor((diferenca / (1000 * 60 * 60)) % 24);
+        const minutos = Math.floor((diferenca / (1000 * 60)) % 60);
+
+        bloco.innerHTML = `
+            <p class='statusDivulgacao'><strong>Divulgação dos resultados em:</strong></p>
+            <p id='contagem'>${dias} dias, ${horas} horas e ${minutos} minutos...</p>
+            <p class='statusDivulgacao'>Boa sorte!</p>
+        `;
     }
 
-    verificarDivulgacao();
+    atualizarContagem();
+    setInterval(atualizarContagem, 60000);
 }
+
+verificarDivulgacao();

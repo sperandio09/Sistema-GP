@@ -58,3 +58,53 @@ def listar_escuderias():
     cursor.close()
     conn.close()
     return resultado
+
+def listar_escuderias_avaliadas(id_avaliador: int):
+
+    conn = get_connection()
+    cursor  = conn.cursor(dictionary=True)
+
+    query = """
+        SELECT
+            e.id_escuderia,
+            e.nome_escuderia,
+            e.turma,
+            u.nome AS mentor,
+
+            COUNT(DISTINCT a.id_criterio) AS criterios_avaliados,
+
+            (SELECT COUNT(*) FROM criterio) AS total_criterios,
+
+            CASE
+                WHEN COUNT(DISTINCT a.id_criterio) =
+                     (SELECT COUNT(*) FROM criterio)
+                THEN 'concluida'
+                ELSE 'em_andamento'
+            END AS status
+
+        FROM avaliacao a
+
+        INNER JOIN escuderia e
+            ON e.id_escuderia = a.id_escuderia
+
+        LEFT JOIN usuario u
+            ON u.id_usuario = e.id_mentor
+
+        WHERE a.id_avaliador = %s
+
+        GROUP BY
+            e.id_escuderia,
+            e.nome_escuderia,
+            e.turma,
+            u.nome
+
+        ORDER BY e.nome_escuderia
+    """
+
+    cursor.execute(query, (id_avaliador,))
+    resultados = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return resultados

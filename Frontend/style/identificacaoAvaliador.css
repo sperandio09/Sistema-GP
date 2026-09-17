@@ -4,6 +4,12 @@ body {
   background-position: center;
   background-repeat: no-repeat;
 
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
   min-height: 100vh;
   width: 100%;
   margin: 0;
@@ -81,4 +87,16 @@ option {
     background-color: #d04a1f;
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(240, 90, 36, 0.3);
+}
+
+.creditos a{
+    color: #7a8294;
+    text-decoration: none;
+    font-size: 16px;
+    margin-top: 40px;
+    font-weight: 500;
+}
+
+.creditos a:hover{
+    color: #f05a24;
 }

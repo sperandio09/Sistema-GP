@@ -4,6 +4,12 @@ body {
   background-position: center;
   background-repeat: no-repeat;
 
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
   min-height: 100vh;
   width: 100%;
   margin: 0;
@@ -144,6 +150,7 @@ form{
 
 #btnBuscar{
     margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 .creditos a{
@@ -156,4 +163,57 @@ form{
 
 .creditos a:hover{
     color: #f05a24;
+}
+
+div#blocoDivulgacao {
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div#blocoDivulgacao button {
+    background-color:#f05a24;
+    color: #f0f0f0;
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 15px;
+}
+
+div#blocoDivulgacao button:hover {
+    background-color: #d04a1f;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(240, 90, 36, 0.3);
+}
+
+div#blocoDivulgacao p.statusDivulgacao {
+    color: #f05a24;
+    margin: 10px 0 10px 0;
+    font-size: 20px;
+    font-weight: 200;
+    text-transform: uppercase;
+}
+
+div#blocoDivulgacao p#contagem {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: #fcfcfd;
+    border-radius: 6px;
+    color: #090846;
+    box-shadow: 5px 20px 40px rgba(9, 28, 77, 1)5;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    font-size: 25px;
+    font-weight: 400;
 }
