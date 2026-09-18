@@ -55,6 +55,11 @@ body {
     color: #f05a24;
 }
 
+#infoEscuderia {
+    color: #102c75;
+    font-weight: 400;
+}
+
 form {
     display: flex;
     flex-direction: column;
