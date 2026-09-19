@@ -1,13 +1,43 @@
 from fastapi import APIRouter, HTTPException
+
 from src.models import AvaliacaoCreate
 from src.controllers.avaliacoes import criar_avaliacao
 
+
 router = APIRouter()
 
-@router.post('/avaliacoes')
+
+@router.post("/avaliacoes")
 def cadastrar_avaliacao(dados: AvaliacaoCreate):
+
     try:
-        novo_id  = criar_avaliacao(dados.id_escuderia, dados.id_avaliador, dados.id_criterio, dados.nota, dados.comentario)
+
+        novo_id = criar_avaliacao(
+            dados.id_escuderia,
+            dados.id_avaliador,
+            dados.id_criterio,
+            dados.nota,
+            dados.comentario
+        )
+
+
+    except PermissionError as erro:
+
+        raise HTTPException(
+            status_code=403,
+            detail=str(erro)
+        )
+
+
     except ValueError as erro:
-        raise HTTPException(status_code=400, detail=str(erro))
-    return {'id_avaliacao': novo_id, 'message': 'Avaliação atribuída com sucesso!'}
+
+        raise HTTPException(
+            status_code=400,
+            detail=str(erro)
+        )
+
+
+    return {
+        "id_avaliacao": novo_id,
+        "message": "Avaliação atribuída com sucesso!"
+    }

@@ -131,17 +131,41 @@ def salvar_snapshot_ranking(id_divulgacao):
     conn.close()
 
 def obter_ranking_salvo():
+
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
-    cursor.execute('''
-        SELECT resultado.id_escuderia, escuderia.nome_escuderia, resultado.nota_final
+
+    cursor.execute("""
+        SELECT
+            resultado.id_escuderia,
+            escuderia.nome_escuderia,
+            resultado.nota_final
+
         FROM resultado
-        JOIN escuderia ON resultado.id_escuderia = escuderia.id_escuderia
+
+        JOIN escuderia
+            ON resultado.id_escuderia =
+               escuderia.id_escuderia
+
+        WHERE resultado.id_divulgacao = (
+            SELECT id_divulgacao
+            FROM divulgacao
+            ORDER BY id_divulgacao DESC
+            LIMIT 1
+        )
+
         ORDER BY resultado.nota_final DESC
-    ''')
+    """)
+
     linhas = cursor.fetchall()
+
     cursor.close()
     conn.close()
+
     for linha in linhas:
-        linha['nota_final'] = float(linha['nota_final'])
+
+        linha["nota_final"] = float(
+            linha["nota_final"]
+        )
+
     return linhas

@@ -51,3 +51,20 @@ async function obterStatusDivulgacao() {
   const resposta = await fetch(`${API_URL}/divulgacao`);
   return resposta.json();
 }
+
+async function obterDesempenhoEscuderia(idEscuderia) {
+
+    const resposta = await fetch(
+        `${API_URL}/escuderias/${idEscuderia}/desempenho`
+    );
+
+    if (!resposta.ok) {
+
+        throw new Error(
+            "Não foi possível carregar o desempenho da escuderia."
+        );
+
+    }
+
+    return await resposta.json();
+}
