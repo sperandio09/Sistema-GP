@@ -1,46 +1,23 @@
-const tokenAdmin =
-    sessionStorage.getItem(
-        "admin_token"
-    );
-
+const tokenAdmin = sessionStorage.getItem("admin_token");
 
 async function protegerPaginaAdmin() {
+  if (!tokenAdmin) {
+    window.location.href = "validacaoAdmin.html";
 
-    if (!tokenAdmin) {
+    return false;
+  }
 
-        window.location.href =
-            "validacaoAdmin.html";
+  const autorizado = await verificarSessaoAdmin(tokenAdmin);
 
-        return false;
-    }
+  if (!autorizado) {
+    sessionStorage.removeItem("admin_token");
 
+    window.location.href = "validacaoAdmin.html";
 
-    const autorizado =
-        await verificarSessaoAdmin(
-            tokenAdmin
-        );
+    return false;
+  }
 
-
-    if (!autorizado) {
-
-        sessionStorage.removeItem(
-            "admin_token"
-        );
-
-        window.location.href =
-            "validacaoAdmin.html";
-
-        return false;
-    }
-
-
-    return true;
-}
-
-const adminAutorizado = sessionStorage.getItem("admin_autorizado");
-
-if (adminAutorizado !== "true") {
-  window.location.href = "validacaoAdmin.html";
+  return true;
 }
 
 let statusAtual = null;
@@ -56,7 +33,7 @@ const btnLiberar = document.getElementById("btnLiberar");
 const btnFechar = document.getElementById("btnFechar");
 
 document.getElementById("voltarSistema").addEventListener("click", () => {
-  sessionStorage.removeItem("admin_autorizado");
+  sessionStorage.removeItem("admin_token");
 });
 
 async function carregarStatusAdmin() {
@@ -238,18 +215,13 @@ function converterParaDatetimeLocal(data) {
 }
 
 async function iniciarAdmin() {
+  const autorizado = await protegerPaginaAdmin();
 
-    const autorizado =
-        await protegerPaginaAdmin();
+  if (!autorizado) {
+    return;
+  }
 
-
-    if (!autorizado) {
-        return;
-    }
-
-
-    await carregarStatusAdmin();
+  await carregarStatusAdmin();
 }
-
 
 iniciarAdmin();

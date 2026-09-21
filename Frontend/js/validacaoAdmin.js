@@ -1,32 +1,74 @@
-const CODIGO_ADMIN = "1244";
+const form =
+    document.getElementById("formValidacaoAdmin");
 
-const form = document.getElementById("formValidacaoAdmin");
+const inputCodigo =
+    document.getElementById("inputCodigoAdmin");
 
-const inputCodigo = document.getElementById("inputCodigoAdmin");
+const btnVoltar =
+    document.getElementById("btnVoltar");
 
-const btnVoltar = document.getElementById("btnVoltar");
 
 btnVoltar.addEventListener("click", () => {
-  window.location.href = "paginaInicial.html";
+
+    window.location.href =
+        "paginaInicial.html";
+
 });
 
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
 
-  const codigoDigitado = inputCodigo.value.trim();
+form.addEventListener("submit", async (event) => {
 
-  if (codigoDigitado === CODIGO_ADMIN) {
-   
-    sessionStorage.setItem("admin_autorizado", "true");
+    event.preventDefault();
 
-    alert("Acesso administrativo concedido!");
+    const codigo =
+        inputCodigo.value.trim();
 
-    window.location.href = "admin.html";
-  } else {
-    alert("Código administrativo incorreto.");
 
-    inputCodigo.value = "";
+    if (!codigo) {
 
-    inputCodigo.focus();
-  }
+        alert(
+            "Informe o código administrativo."
+        );
+
+        inputCodigo.focus();
+
+        return;
+    }
+
+
+    try {
+
+        const resultado =
+            await validarCodigoAdmin(codigo);
+
+
+        sessionStorage.setItem(
+            "admin_token",
+            resultado.token
+        );
+
+
+        alert(
+            "Acesso administrativo concedido!"
+        );
+
+
+        // VAI PARA O PAINEL
+        window.location.href =
+            "admin.html";
+
+
+    } catch (erro) {
+
+        alert(
+            erro.message
+        );
+
+
+        inputCodigo.value = "";
+
+        inputCodigo.focus();
+
+    }
+
 });
