@@ -91,7 +91,10 @@ def gerar_token_admin() -> str:
 
 def validar_token_admin(
     authorization: str | None =
-        Header(default=None)
+        Header(
+            default=None,
+            alias="Authorization"
+        )
 ):
 
     if not authorization:
