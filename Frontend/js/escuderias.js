@@ -56,8 +56,10 @@ btnBuscar.addEventListener("click", () => {
 
     return;
   }
-
-  window.location.href = `detalhesEscuderia.html?id=${escuderiaSelecionada.id_escuderia}`;
+  
+  abrirDetalhesEscuderia(
+    escuderiaSelecionada.id_escuderia
+);
 });
 
 inputBusca.addEventListener("keydown", (evento) => {

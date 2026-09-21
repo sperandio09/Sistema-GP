@@ -219,7 +219,11 @@ function montarRanking(ranking) {
 }
 
 function abrirEscuderia(idEscuderia) {
-  window.location.href = `detalhesEscuderia.html?id=${idEscuderia}`;
+
+    abrirDetalhesEscuderia(
+        idEscuderia
+    );
+
 }
 
 function formatarNota(nota) {

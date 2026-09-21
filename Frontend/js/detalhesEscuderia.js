@@ -1,6 +1,49 @@
-const parametros = new URLSearchParams(window.location.search);
+const parametros =
+    new URLSearchParams(
+        window.location.search
+    );
 
-const idEscuderia = parametros.get("id");
+
+let idEscuderia =
+    parametros.get("id");
+
+
+// FALLBACK:
+// se o Railway retirar o parâmetro da URL,
+// recupera o ID salvo anteriormente
+
+if (!idEscuderia) {
+
+    idEscuderia =
+        sessionStorage.getItem(
+            "id_escuderia_detalhes"
+        );
+
+}
+
+
+// Se recebeu pela URL,
+// mantém também salvo na sessão
+
+if (idEscuderia) {
+
+    sessionStorage.setItem(
+        "id_escuderia_detalhes",
+        idEscuderia
+    );
+
+}
+
+
+if (!idEscuderia) {
+
+    alert(
+        "Escuderia não identificada."
+    );
+
+    window.location.href =
+        "escuderias.html";
+}
 
 if (!idEscuderia) {
   alert("Escuderia não identificada.");

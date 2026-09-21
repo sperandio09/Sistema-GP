@@ -179,3 +179,31 @@ async function verificarSessaoAdmin(token) {
 
     return resposta.ok;
 }
+
+function abrirDetalhesEscuderia(idEscuderia) {
+
+    sessionStorage.setItem(
+        "id_escuderia_detalhes",
+        String(idEscuderia)
+    );
+
+    const id =
+        encodeURIComponent(idEscuderia);
+
+    // Railway trabalha com URL limpa
+    if (
+        window.location.hostname
+            .includes("railway.app")
+    ) {
+
+        window.location.href =
+            `detalhesEscuderia?id=${id}`;
+
+    } else {
+
+        // Live Server local
+        window.location.href =
+            `detalhesEscuderia.html?id=${id}`;
+
+    }
+}
