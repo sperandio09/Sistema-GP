@@ -5,8 +5,15 @@ import base64
 import hashlib
 import time
 
-from fastapi import Header, HTTPException
+from fastapi.security import (
+    HTTPBearer,
+    HTTPAuthorizationCredentials
+)
+from fastapi import Depends, HTTPException
 
+bearer_scheme = HTTPBearer(
+    auto_error=False
+)
 
 ADMIN_TOKEN_EXPIRACAO = 60 * 60 * 2
 
@@ -20,7 +27,7 @@ def _codificar_base64(dados: bytes) -> str:
 def _decodificar_base64(valor: str) -> bytes:
 
     padding = "=" * (
-        4 - len(valor) % 4
+        (4 - len(valor) % 4) % 4
     )
 
     return base64.urlsafe_b64decode(
@@ -90,30 +97,28 @@ def gerar_token_admin() -> str:
 
 
 def validar_token_admin(
-    authorization: str | None =
-        Header(
-            default=None,
-            alias="Authorization"
-        )
+    credenciais: HTTPAuthorizationCredentials | None =
+        Depends(bearer_scheme)
 ):
 
-    if not authorization:
+    if credenciais is None:
 
         raise HTTPException(
             status_code=401,
             detail="Acesso administrativo não autorizado."
         )
 
-    if not authorization.startswith(
-        "Bearer "
-    ):
+
+    if credenciais.scheme.lower() != "bearer":
 
         raise HTTPException(
             status_code=401,
-            detail="Token administrativo inválido."
+            detail="Tipo de autenticação inválido."
         )
 
-    token = authorization[7:]
+
+    token = credenciais.credentials
+
 
     try:
 
@@ -121,9 +126,11 @@ def validar_token_admin(
             token.split(".", 1)
         )
 
+
         segredo = os.getenv(
             "ADMIN_TOKEN_SECRET"
         )
+
 
         if not segredo:
 
@@ -135,13 +142,17 @@ def validar_token_admin(
                 )
             )
 
+
         assinatura_esperada = _codificar_base64(
+
             hmac.new(
                 segredo.encode(),
                 payload_base64.encode(),
                 hashlib.sha256
             ).digest()
+
         )
+
 
         if not hmac.compare_digest(
             assinatura_recebida,
@@ -150,38 +161,42 @@ def validar_token_admin(
 
             raise HTTPException(
                 status_code=401,
-                detail=(
-                    "Sessão administrativa inválida."
-                )
+                detail="Sessão administrativa inválida."
             )
 
+
         payload = json.loads(
+
             _decodificar_base64(
                 payload_base64
             ).decode()
+
         )
+
 
         if payload.get("tipo") != "admin":
 
             raise HTTPException(
                 status_code=401,
-                detail="Token inválido."
+                detail="Token administrativo inválido."
             )
+
 
         if payload.get("exp", 0) < time.time():
 
             raise HTTPException(
                 status_code=401,
-                detail=(
-                    "Sessão administrativa expirada."
-                )
+                detail="Sessão administrativa expirada."
             )
 
+
         return True
+
 
     except HTTPException:
 
         raise
+
 
     except Exception:
 
