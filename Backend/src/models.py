@@ -16,3 +16,6 @@ class AvaliacaoCreate(BaseModel):
 class DivulgacaoUpdate(BaseModel):
     mostrar_resultado: bool
     data_divulgacao: datetime  
+
+class AdminLogin(BaseModel):
+    codigo: str

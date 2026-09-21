@@ -1,8 +1,9 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from src.controllers.ranking import obter_status_divulgacao, obter_ranking_salvo
 from src.models import DivulgacaoUpdate
 from src.controllers.ranking import atualizar_divulgacao
 from src.controllers.ranking import obter_desempenho_escuderia 
+from src.security.admin import validar_token_admin
 
 router = APIRouter()
 
@@ -21,9 +22,20 @@ def obter_ranking():
     return obter_ranking_salvo()
 
 @router.post('/divulgacao')
-def definir_divulgacao(dados: DivulgacaoUpdate):
-    atualizar_divulgacao(dados.mostrar_resultado, dados.data_divulgacao)
-    return{'mensagem': 'Divulgação atualizada com sucesso.'}
+def definir_divulgacao(
+    dados: DivulgacaoUpdate,
+    _admin=Depends(validar_token_admin)
+):
+
+    atualizar_divulgacao(
+        dados.mostrar_resultado,
+        dados.data_divulgacao
+    )
+
+    return {
+        'mensagem':
+            'Divulgação atualizada com sucesso.'
+    }
 
 @router.get('/escuderias/{id_escuderia}/desempenho')
 def desempenho_escuderia(id_escuderia: int):
