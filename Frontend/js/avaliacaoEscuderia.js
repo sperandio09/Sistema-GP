@@ -4,9 +4,46 @@ if (!idAvaliador) {
     window.location.href = "validacaoAvaliador.html";
 }
 
-const parametros = new URLSearchParams(window.location.search);
-const idEscuderia = parametros.get("id");
+const parametros = new URLSearchParams(
+    window.location.search
+);
 
+let idEscuderia = parametros.get("id");
+
+if (!idEscuderia) {
+
+    idEscuderia = sessionStorage.getItem(
+        "id_escuderia_avaliacao"
+    );
+
+}
+
+if (idEscuderia) {
+
+    sessionStorage.setItem(
+        "id_escuderia_avaliacao",
+        String(idEscuderia)
+    );
+
+}
+
+idEscuderia = Number(idEscuderia);
+
+console.log("ID da escuderia:", idEscuderia);
+console.log("ID do avaliador:", idAvaliador);
+
+if (
+    !idEscuderia ||
+    Number.isNaN(idEscuderia)
+) {
+
+    alert(
+        "Escuderia não identificada. Selecione novamente a escuderia."
+    );
+
+    window.location.href =
+        "escuderiasAvaliadas.html";
+}
 
 function obterComentarioPadrao(idCriterio, nota) {
 
@@ -17,6 +54,7 @@ function obterComentarioPadrao(idCriterio, nota) {
         // CRITÉRIO 9
         // Apresentação do Elevator Pitch
         9: {
+
             nota10:
                 "A equipe apresentou uma excelente postura, vendendo a ideia de forma convincente.",
 
@@ -34,6 +72,7 @@ function obterComentarioPadrao(idCriterio, nota) {
         // CRITÉRIO 10
         // Caráter inovador e potencial de mercado
         10: {
+
             nota10:
                 "O Pitch reforçou de forma excelente o caráter inovador e o potencial de mercado do projeto perante possíveis concorrentes.",
 
@@ -51,6 +90,7 @@ function obterComentarioPadrao(idCriterio, nota) {
         // CRITÉRIO 11
         // Abrangência do Projeto
         11: {
+
             nota10:
                 "A inovação do projeto possui abrangência mundial.",
 
@@ -68,6 +108,7 @@ function obterComentarioPadrao(idCriterio, nota) {
         // CRITÉRIO 12
         // Grau de Inovação do Projeto
         12: {
+
             nota10:
                 "As características/funcionalidades do projeto inovador não possuem soluções similares no mercado ou apresentam elevado grau de diferenciação.",
 
@@ -91,25 +132,21 @@ function obterComentarioPadrao(idCriterio, nota) {
     }
 
 
-    // NOTA 10
     if (nota === 10) {
         return criterio.nota10;
     }
 
 
-    // NOTAS DE 6 ATÉ ABAIXO DE 10
     if (nota >= 6 && nota < 10) {
         return criterio.nota6a9;
     }
 
 
-    // NOTAS DE 1 ATÉ ABAIXO DE 6
     if (nota >= 1 && nota < 6) {
         return criterio.nota1a5;
     }
 
 
-    // NOTA ZERO
     if (nota === 0) {
         return criterio.nota0;
     }
@@ -120,45 +157,85 @@ function obterComentarioPadrao(idCriterio, nota) {
 
 async function carregarDadosEscuderia() {
 
-    const escuderias = await listarEscuderias();
+    try {
 
-    const escuderia = escuderias.find(
-        (e) => e.id_escuderia == idEscuderia
-    );
+        const escuderias =
+            await listarEscuderias();
 
 
-    if (!escuderia) {
+        const escuderia =
+            escuderias.find(
+                (e) =>
+                    Number(e.id_escuderia) ===
+                    Number(idEscuderia)
+            );
+
+
+        if (!escuderia) {
+
+            alert(
+                "Escuderia não encontrada. Selecione novamente."
+            );
+
+            window.location.href =
+                "escuderiasAvaliadas.html";
+
+            return false;
+        }
+
 
         document.getElementById(
             "nomeEscuderia"
-        ).textContent =
-            "Escuderia não encontrada.";
+        ).innerHTML = `
 
-        return;
+            ${escuderia.nome_escuderia}
+
+            <br>
+
+            <span id="infoEscuderia">
+
+                ${escuderia.nome_mentor}
+                -
+                ${escuderia.turma}
+
+            </span>
+
+        `;
+
+
+        return true;
+
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar a escuderia:",
+            erro
+        );
+
+
+        alert(
+            "Não foi possível carregar os dados da escuderia."
+        );
+
+
+        return false;
     }
 
-
-    document.getElementById(
-        "nomeEscuderia"
-    ).innerHTML = `
-
-        ${escuderia.nome_escuderia}
-
-        <br>
-
-        <span id="infoEscuderia">
-            ${escuderia.nome_mentor} - ${escuderia.turma}
-        </span>
-
-    `;
 }
 
 async function montarFormulario() {
 
-    const criterios = await obterCriterios();
+    const criterios =
+        await obterCriterios();
+
 
     const form =
-        document.getElementById("formAvaliacao");
+        document.getElementById(
+            "formAvaliacao"
+        );
+
+    form.innerHTML = "";
 
 
     criterios.forEach((c) => {
@@ -166,7 +243,10 @@ async function montarFormulario() {
         const bloco =
             document.createElement("div");
 
-        bloco.classList.add("bloco-criterio");
+
+        bloco.classList.add(
+            "bloco-criterio"
+        );
 
 
         bloco.innerHTML = `
@@ -205,57 +285,58 @@ async function montarFormulario() {
 
         form.appendChild(bloco);
 
+
         const inputNota =
             document.getElementById(
                 `nota_${c.id_criterio}`
             );
+
 
         const campoComentario =
             document.getElementById(
                 `comentario_${c.id_criterio}`
             );
 
+        inputNota.addEventListener(
+            "input",
+            () => {
 
-        inputNota.addEventListener("input", () => {
+                const valor =
+                    inputNota.value;
 
-            const valor = inputNota.value;
+
+                if (valor === "") {
+
+                    campoComentario.value = "";
+
+                    return;
+                }
 
 
-            if (valor === "") {
+                const nota =
+                    parseFloat(valor);
 
-                campoComentario.value = "";
 
-                return;
+                if (
+                    Number.isNaN(nota) ||
+                    nota < 0 ||
+                    nota > 10
+                ) {
+
+                    campoComentario.value = "";
+
+                    return;
+                }
+
+
+                campoComentario.value =
+                    obterComentarioPadrao(
+                        Number(c.id_criterio),
+                        nota
+                    );
 
             }
-
-
-            const nota =
-                parseFloat(valor);
-
-
-            // Proteção contra valor inválido
-
-            if (
-                isNaN(nota) ||
-                nota < 0 ||
-                nota > 10
-            ) {
-
-                campoComentario.value = "";
-
-                return;
-
-            }
-
-
-            campoComentario.value =
-                obterComentarioPadrao(
-                    c.id_criterio,
-                    nota
-                );
-
-        });
+        );
 
     });
 
@@ -263,73 +344,162 @@ async function montarFormulario() {
 
 document
     .getElementById("btnEnviar")
-    .addEventListener("click", async () => {
+    .addEventListener(
+        "click",
+        async () => {
 
-        const criterios =
-            await obterCriterios();
-
-
-        for (const c of criterios) {
-
-            const campoNota =
-                document.getElementById(
-                    `nota_${c.id_criterio}`
-                );
-
-
-            const nota =
-                campoNota.value;
-
-            if (nota === "") {
+            if (
+                !idEscuderia ||
+                Number.isNaN(idEscuderia)
+            ) {
 
                 alert(
-                    `Informe a nota do critério "${c.descricao}".`
+                    "Escuderia não identificada. Volte e selecione novamente."
                 );
-
-                campoNota.focus();
 
                 return;
             }
 
 
-            const comentario =
-                document.getElementById(
-                    `comentario_${c.id_criterio}`
-                ).value;
+            const criterios =
+                await obterCriterios();
+
+            for (const c of criterios) {
+
+                const campoNota =
+                    document.getElementById(
+                        `nota_${c.id_criterio}`
+                    );
 
 
-            const resultado =
-                await cadastrarAvaliacao(
-                    idEscuderia,
-                    idAvaliador,
-                    c.id_criterio,
-                    parseFloat(nota),
-                    comentario
-                );
+                const nota =
+                    campoNota.value;
 
 
-            if (resultado.detail) {
+                if (nota === "") {
 
-                alert(
-                    `Erro no critério "${c.descricao}": ${resultado.detail}`
-                );
+                    alert(
+                        `Informe a nota do critério "${c.descricao}".`
+                    );
 
-                return;
+                    campoNota.focus();
+
+                    return;
+                }
+
+
+                const notaNumerica =
+                    parseFloat(nota);
+
+
+                if (
+                    Number.isNaN(notaNumerica) ||
+                    notaNumerica < 0 ||
+                    notaNumerica > 10
+                ) {
+
+                    alert(
+                        `A nota do critério "${c.descricao}" deve estar entre 0 e 10.`
+                    );
+
+                    campoNota.focus();
+
+                    return;
+                }
+
             }
+
+            for (const c of criterios) {
+
+                const nota =
+                    document.getElementById(
+                        `nota_${c.id_criterio}`
+                    ).value;
+
+
+                const comentario =
+                    document.getElementById(
+                        `comentario_${c.id_criterio}`
+                    ).value;
+
+
+                console.log(
+                    "Enviando avaliação:",
+                    {
+                        id_escuderia:
+                            Number(idEscuderia),
+
+                        id_avaliador:
+                            Number(idAvaliador),
+
+                        id_criterio:
+                            Number(c.id_criterio),
+
+                        nota:
+                            parseFloat(nota),
+
+                        comentario:
+                            comentario
+                    }
+                );
+
+
+                const resultado =
+                    await cadastrarAvaliacao(
+
+                        Number(idEscuderia),
+
+                        Number(idAvaliador),
+
+                        Number(c.id_criterio),
+
+                        parseFloat(nota),
+
+                        comentario
+                    );
+
+
+                if (resultado.detail) {
+
+                    alert(
+                        `Erro no critério "${c.descricao}": ${resultado.detail}`
+                    );
+
+                    return;
+                }
+
+            }
+
+
+            alert(
+                "Avaliação enviada com sucesso!"
+            );
+
+            sessionStorage.removeItem(
+                "id_escuderia_avaliacao"
+            );
+
+
+            window.location.href =
+                "escuderiasAvaliadas.html";
 
         }
+    );
+
+async function iniciarPagina() {
+
+    const escuderiaValida =
+        await carregarDadosEscuderia();
 
 
-        alert(
-            "Avaliação enviada com sucesso!"
-        );
+    if (!escuderiaValida) {
+        return;
+    }
 
 
-        window.location.href =
-            "escuderiasAvaliadas.html";
+    await montarFormulario();
 
-    });
+}
 
-carregarDadosEscuderia();
 
-montarFormulario();
+iniciarPagina();
